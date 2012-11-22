@@ -39,7 +39,7 @@ public class UtilsTest {
     /**
      * Test of buildStego method, of class Utils.
      */
-    @Test
+//    @Test
     public void testBuildStego() {
         System.out.println("buildStego");
         String inputText = "";
@@ -53,13 +53,27 @@ public class UtilsTest {
     /**
      * Test of hide method, of class Utils.
      */
-    @Test
+    //@Test
     public void testHide() {
         System.out.println("hide");
         String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t1.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
         boolean expResult = true;
         boolean result = Utils.hide(fileName, imageFileName);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of reveal method, of class Utils.
+     */
+    //@Test
+    public void testReveal() {
+        System.out.println("reveal");
+        String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/abc.png";
+        boolean expResult = true;
+        boolean result = Utils.reveal(fileName);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

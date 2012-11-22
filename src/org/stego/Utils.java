@@ -29,8 +29,9 @@ public class Utils {
     public static byte[] buildStego(String inputText) {
         byte[] stego = null;
 
-
         byte[] msgBytes = inputText.getBytes();
+
+        //gives size of the data 
         byte[] dataLength = intToBytes(msgBytes.length);
 
         int totalLen = dataLength.length + msgBytes.length;
@@ -44,7 +45,7 @@ public class Utils {
         return stego;
     }
 
-    private static byte[] intToBytes(int i) {
+    public static byte[] intToBytes(int i) {
         byte[] byteArr = new byte[MAX_INT_LEN];
 
         byteArr[0] = (byte) ((i >>> 24) & 0xFF);
@@ -55,14 +56,14 @@ public class Utils {
         return byteArr;
     }
 
-    private static byte[] accessBytes(BufferedImage image) {
+    public static byte[] accessBytes(BufferedImage image) {
         WritableRaster raster = image.getRaster();
         DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
 
         return buffer.getData();
     }
 
-    private static boolean singleHide(byte[] imBytes, byte[] stego) {
+    public static boolean singleHide(byte[] imBytes, byte[] stego) {
         int imageLength = imBytes.length;
 
         int totalLength = stego.length;
@@ -76,7 +77,7 @@ public class Utils {
         return true;
     }
 
-    private static void hideStego(byte[] imBytes, byte[] stego, int offset) {
+    public static void hideStego(byte[] imBytes, byte[] stego, int offset) {
 
         for (int i = 0; i < stego.length; i++) {
 
@@ -139,7 +140,7 @@ public class Utils {
         }
     }
 
-    private static String readTextFile(String fileName) {
+    public static String readTextFile(String fileName) {
 
         StringBuilder text = new StringBuilder();
 
@@ -150,11 +151,12 @@ public class Utils {
             while ((str = br.readLine()) != null) {
 
                 text.append(str);
+                text.append("\n");
 
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
         return text.toString();
@@ -162,13 +164,21 @@ public class Utils {
 
     private static boolean writeStringToFile(String fileName, String message) {
         File file = new File(fileName);
+        BufferedWriter bw = null;
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw = new BufferedWriter(new FileWriter(file));
             bw.write(message);
+            bw.flush();
             return true;
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
+        } finally {
+            try {
+                bw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -193,7 +203,7 @@ public class Utils {
 
             if (msg != null) {
 
-                writeStringToFile("msg.txt", msg);
+                writeStringToFile("abc.txt", msg);
 
             } else {
                 System.out.println("No message found");
@@ -218,9 +228,9 @@ public class Utils {
         }
 
         int msgLength = ((lenBytes[0] & 0xff) << 24)
-                | ((lenBytes[0] & 0xff) << 16)
-                | ((lenBytes[0] & 0xff) << 8)
-                | (lenBytes[0] & 0xff);
+                | ((lenBytes[1] & 0xff) << 16)
+                | ((lenBytes[2] & 0xff) << 8)
+                | (lenBytes[3] & 0xff);
 
         if (msgLength <= 0 || msgLength > imageBytes.length) {
             System.out.println("incorrect message length");
