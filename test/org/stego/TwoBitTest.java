@@ -15,65 +15,65 @@ import static org.junit.Assert.*;
  *
  * @author ankur
  */
-public class UtilsTest {
-
-    public UtilsTest() {
+public class TwoBitTest {
+    
+    public TwoBitTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
     }
-
+    
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of buildStego method, of class Utils.
+     * Test of buildStego method, of class TwoBit.
      */
-//    @Test
+   // @Test
     public void testBuildStego() {
         System.out.println("buildStego");
         String inputText = "";
         byte[] expResult = null;
-        byte[] result = Utils.buildStego(inputText);
+        byte[] result = TwoBit.buildStego(inputText);
         assertArrayEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of hide method, of class Utils.
+     * Test of hide method, of class TwoBit.
      */
-    //@Test
+    @Test
     public void testHide() {
         System.out.println("hide");
         String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t1.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
         boolean expResult = true;
-        boolean result = Utils.hide(fileName, imageFileName);
+        boolean result = TwoBit.hide(fileName, imageFileName);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
 
     /**
-     * Test of reveal method, of class Utils.
+     * Test of reveal method, of class TwoBit.
      */
-    //@Test
+    @Test
     public void testReveal() {
         System.out.println("reveal");
-        String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/abc.png";
+        String fileName = "abc.png";
         boolean expResult = true;
-        boolean result = Utils.reveal(fileName);
+        boolean result = TwoBit.reveal(fileName);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
