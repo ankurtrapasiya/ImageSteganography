@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  *
  * @author ankur
  */
-public class Utils {
+public class TwoBit {
 
     private static final int DATA_SIZE = 8;
     private static final int MAX_INT_LEN = 4;
@@ -62,12 +62,12 @@ public class Utils {
         return buffer.getData();
     }
 
-    private static boolean singleHide(byte[] imBytes, byte[] stego) {
+    private static boolean doubleHide(byte[] imBytes, byte[] stego) {
         int imageLength = imBytes.length;
 
         int totalLength = stego.length;
 
-        if ((totalLength * DATA_SIZE) > imageLength) {
+        if ((totalLength * (DATA_SIZE / 2)) > imageLength) {
             System.out.println("too big message for image...oops");
             return false;
         }
@@ -79,13 +79,16 @@ public class Utils {
     private static void hideStego(byte[] imBytes, byte[] stego, int offset) {
 
         for (int i = 0; i < stego.length; i++) {
+            
 
             int byteVal = stego[i];
 
-            for (int j = 7; j >= 0; j--) {
-                int bitVal = (byteVal >>> j) & 1;
+            for (int j = 6; j >= 0; j -= 2) {
 
-                imBytes[offset] = (byte) ((imBytes[offset] & 0xFE) | bitVal);
+                
+                int bitVal = (byteVal >>> j) & 3;
+
+                imBytes[offset] = (byte) ((imBytes[offset] & 0xFC) | bitVal);
 
                 offset++;
 
@@ -113,7 +116,7 @@ public class Utils {
             byte[] imageBytes = accessBytes(image);
 
 
-            if (!singleHide(imageBytes, stego)) {
+            if (!doubleHide(imageBytes, stego)) {
                 return false;
             }
 
@@ -191,7 +194,7 @@ public class Utils {
                 return false;
             }
 
-            String msg = getMessage(imageBytes, msgLength, MAX_INT_LEN * DATA_SIZE);
+            String msg = getMessage(imageBytes, msgLength, (MAX_INT_LEN * DATA_SIZE)/2);
 
             if (msg != null) {
 
@@ -233,7 +236,7 @@ public class Utils {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        int finalPosition = offset + (size * DATA_SIZE);
+        int finalPosition = offset + (size * (DATA_SIZE / 2));
 
         if (finalPosition > imageBytes.length) {
             System.out.println("image end reached");
@@ -244,17 +247,19 @@ public class Utils {
 
 
         for (int j = 0; j < size; j++) {
-            for (int i = 0; i < DATA_SIZE; i++) {
-                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 1) | (imageBytes[offset] & 1));
+            for (int i = 0; i < DATA_SIZE / 2; i++) {
+                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 2) | (imageBytes[offset] & 3));
 
                 offset++;
             }
         }
-
+               
         return hiddenBytes;
     }
 
     private static String getMessage(byte[] imageBytes, int msgLength, int offset) {
+        
+        
         byte[] msgBytes = extractHiddenBytes(imageBytes, msgLength, offset);
 
         if (msgBytes == null) {
@@ -262,10 +267,8 @@ public class Utils {
         }
 
         String msg = new String(msgBytes);
-
-//        if(isPrintable(msg))
-//            return msg;
-//        else return null;
+        
+        System.out.println("message" + msg);
 
         return msg;
     }
