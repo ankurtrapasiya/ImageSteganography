@@ -128,7 +128,7 @@ public class Utils {
         return true;
     }
 
-    private static boolean writeImageToFile(String fileName, BufferedImage image) {
+    public static boolean writeImageToFile(String fileName, BufferedImage image) {
 
         File file = new File(fileName);
         try {
