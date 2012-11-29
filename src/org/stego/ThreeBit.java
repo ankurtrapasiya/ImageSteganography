@@ -23,8 +23,7 @@ import javax.imageio.ImageIO;
  */
 public class ThreeBit {
 
-    private static final int DATA_SIZE = 8;                
-
+    private static final int DATA_SIZE = 8;
     private static final int MAX_INT_LEN = 4;
 
     public static byte[] buildStego(String inputText) {
@@ -68,7 +67,9 @@ public class ThreeBit {
 
         int totalLength = stego.length;
 
-        if ((totalLength * (DATA_SIZE / 2)) > imageLength) {
+        System.out.println("total lenght" + totalLength);
+        
+        if ((totalLength * ((int)((double) DATA_SIZE / 3.0))) > imageLength) {
             System.out.println("too big message for image...oops");
             return false;
         }
@@ -78,127 +79,151 @@ public class ThreeBit {
     }
 
     private static void hideStego(byte[] imBytes, byte[] stego, int offset) {
-        
-        for (int i = 0; i < stego.length; i++) {
+
+        /*for (int i = 0; i < stego.length; i++) {
 
 
+         int byteVal = stego[i];
+
+         int bitVal;
+         int shift;
+
+         //1
+
+         shift = 5;
+
+         bitVal = (byteVal >>> shift) & 7;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+         //2
+
+         shift = 2;
+
+         bitVal = (byteVal >>> shift) & 7;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+
+         //3
+
+         bitVal = byteVal & 3;
+
+         bitVal = bitVal << 1;
+
+
+         if (++i > stego.length) {
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         break;
+         }
+
+         int temp = stego[i];
+
+         shift = 7;
+
+         int bitTemp = (temp >>> shift) & 1;
+
+         bitVal = bitVal | bitTemp;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+
+         //4
+
+         shift = 4;
+
+         bitVal = (temp >>> shift) & 7;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+         //5
+
+         shift = 1;
+
+         bitVal = (temp >>> shift) & 7;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+         //6
+
+
+         bitTemp = temp & 1;
+
+         if (++i > stego.length) {
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         break;
+         }
+
+         temp = stego[i];
+
+         shift = 6;
+
+         bitVal = (temp >>> shift) & 3;
+
+         bitVal = bitVal << 1;
+
+         bitVal = bitVal | bitTemp;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         //7
+
+         shift = 3;
+
+         bitVal = (temp >>> shift) & 7;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+         //8
+
+         bitVal = (temp) & 7;
+
+         imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+         offset++;
+
+
+         }*/
+
+        for (int i = 0; i < stego.length;) {
+            int k = (8 - (((offset + 1) * 3) % 8)) % 8;
             int byteVal = stego[i];
-
             int bitVal;
-            int shift;
-
-            //1
-
-            shift = 5;
-
-            bitVal = (byteVal >>> shift) & 7;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            offset++;
-
-            //2
-
-            shift = 2;
-
-            bitVal = (byteVal >>> shift) & 7;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            offset++;
-
-
-            //3
-
-            bitVal = byteVal & 3;
-
-            bitVal = bitVal << 1;
-
-
-            if (++i > stego.length) {
-
-                imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-                break;
+            if ((k != 6) && (k != 7)) {
+                bitVal = (byteVal >>> k) & 7;
+            } else {
+                int l = 3 - (Math.abs(5 - k));
+                bitVal = (byteVal) & 7;
+                bitVal = (bitVal << l) & 7;
+                if (i + 1 < stego.length) {
+                    byteVal = stego[i + 1];
+                    int bitVal2 = (byteVal >>> k) & (k == 7 ? 1 : 3);
+                    bitVal = bitVal | bitVal2;
+                }
             }
-
-            int temp = stego[i];
-
-            shift = 7;
-
-            int bitTemp = (temp >>> shift) & 1;
-
-            bitVal = bitVal | bitTemp;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            offset++;
-
-
-            //4
-
-            shift = 4;
-
-            bitVal = (temp >>> shift) & 7;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            offset++;
-
-            //5
-
-            shift = 1;
-
-            bitVal = (temp >>> shift) & 7;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            offset++;
-
-            //6
-
-
-            bitTemp = temp & 1;
-
-            if (++i > stego.length) {
-
-                imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-                break;
+            if (k == 7 || k == 6 || k == 0) {
+                i++;
             }
-
-            temp = stego[i];
-
-            shift = 6;
-
-            bitVal = (temp >>> shift) & 3;
-
-            bitVal = bitVal << 1;
-
-            bitVal = bitVal | bitTemp;
-
             imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            //7
-
-            shift = 3;
-
-            bitVal = (temp >>> shift) & 7;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
             offset++;
-
-            //8
-
-            bitVal = (temp) & 7;
-
-            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-            offset++;
-
-
         }
+
     }
 
     public static boolean hide(String fileName, String imageFileName) {
@@ -299,7 +324,7 @@ public class ThreeBit {
                 return false;
             }
 
-            String msg = getMessage(imageBytes, msgLength, (MAX_INT_LEN * DATA_SIZE) / 2);
+            String msg = getMessage(imageBytes, msgLength, Double.valueOf(Math.ceil(((double) MAX_INT_LEN) * ((double) DATA_SIZE / 3.0))).intValue());
 
             if (msg != null) {
 
@@ -341,12 +366,12 @@ public class ThreeBit {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        double data = Double.valueOf(Math.ceil(((double)size)*((double)DATA_SIZE/3.0)));
-        
-        int finalPosition = offset + (int)data;
+        double data = Double.valueOf(Math.ceil(((double) size) * ((double) DATA_SIZE / 3.0)));
+
+        int finalPosition = offset + (int) data;
 
         System.out.println("data" + data);
-        
+
         if (finalPosition > imageBytes.length) {
             System.out.println("image end reached");
             return null;
@@ -355,21 +380,71 @@ public class ThreeBit {
         byte[] hiddenBytes = new byte[size];
 
 
-        for (int j = 0; j < size; j++) {
-            for (int i = 0; i < DATA_SIZE / 2; i++) {
-                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 2) | (imageBytes[offset] & 3));
+        for (int j = -1; j < size;) {
 
-                offset++; 
+            int k = (8 - (((offset) * 3) % 8)) % 8;
+
+            k = (k >= 3) ? 3 : k;
+
+            if (k == 0) {
+                j++;
             }
-        }
 
+            int byteVal = imageBytes[offset];
+
+            hiddenBytes[j] = (byte) (hiddenBytes[j] << k);
+
+            int val = byteVal & 7;
+
+            if ((k == 1)) {
+
+                hiddenBytes[j] = (byte) (hiddenBytes[j] | (val >> 2));
+
+                val = val & 3;
+
+                if (j + 1 < size) {
+
+                    hiddenBytes[j + 1] = (byte) (hiddenBytes[j + 1] | val);
+
+                    j++;
+                } else {
+                    j++;
+                }
+
+
+            } else if (k == 2) {
+
+                hiddenBytes[j] = (byte) (hiddenBytes[j] | (val >> 1));
+
+                val = val & 1;
+
+                if (j + 1 < size) {
+
+                    hiddenBytes[j + 1] = (byte) (hiddenBytes[j + 1] | val);
+
+                    j++;
+
+                } else {
+                    j++;
+                }
+
+
+            } else {
+
+                hiddenBytes[j] = (byte) (hiddenBytes[j] | val);
+
+            }
+
+            offset++;
+
+        }
         return hiddenBytes;
     }
 
     private static String getMessage(byte[] imageBytes, int msgLength, int offset) {
 
 
-        byte[] msgBytes = extractHiddenBytes(imageBytes, msgLength, offset);
+        byte[] msgBytes = getActualData(imageBytes, msgLength, offset);
 
         if (msgBytes == null) {
             return null;
@@ -380,5 +455,83 @@ public class ThreeBit {
         System.out.println("message" + msg);
 
         return msg;
+    }
+
+    private static byte[] getActualData(byte[] imageBytes, int size, int offset) {
+        double data = Double.valueOf(Math.ceil(((double) size) * ((double) DATA_SIZE / 3.0)));
+
+        int finalPosition = offset + (int) data;
+
+        System.out.println("data" + data);
+
+        if (finalPosition > imageBytes.length) {
+            System.out.println("image end reached");
+            return null;
+        }
+
+        byte[] hiddenBytes = new byte[size];
+
+
+        for (int j = 0; j < size;) {
+
+            int k = (8 - (((offset) * 3) % 8)) % 8;
+
+            k = (k >= 3) ? 3 : k;
+
+            if (k == 0) {
+                j++;
+            }
+
+            int byteVal = imageBytes[offset];
+
+            hiddenBytes[j] = (byte) (hiddenBytes[j] << k);
+
+            int val = byteVal & 7;
+
+            if ((k == 1)) {
+
+                hiddenBytes[j] = (byte) (hiddenBytes[j] | (val >> 2));
+
+                val = val & 3;
+
+                if (j + 1 < size) {
+
+                    hiddenBytes[j + 1] = (byte) (hiddenBytes[j + 1] | val);
+
+                    j++;
+                } else {
+                    j++;
+                }
+
+
+            } else if (k == 2) {
+
+                hiddenBytes[j] = (byte) (hiddenBytes[j] | (val >> 1));
+
+                val = val & 1;
+
+                if (j + 1 < size) {
+
+                    hiddenBytes[j + 1] = (byte) (hiddenBytes[j + 1] | val);
+
+                    j++;
+
+                } else {
+                    j++;
+                }
+
+
+            } else {
+
+                hiddenBytes[j] = (byte) (hiddenBytes[j] | val);
+
+            }
+
+            offset++;
+
+        }
+               
+        
+        return hiddenBytes;
     }
 }

@@ -67,7 +67,7 @@ public class ThreeBitTest {
     /**
      * Test of reveal method, of class ThreeBit.
      */
-    //@Test
+    @Test
     public void testReveal() {
         System.out.println("reveal");
         String fileName = "abc.png";
