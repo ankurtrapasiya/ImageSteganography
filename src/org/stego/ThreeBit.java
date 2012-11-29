@@ -23,7 +23,8 @@ import javax.imageio.ImageIO;
  */
 public class ThreeBit {
 
-    private static final int DATA_SIZE = 8;
+    private static final int DATA_SIZE = 8;                
+
     private static final int MAX_INT_LEN = 4;
 
     public static byte[] buildStego(String inputText) {
@@ -77,63 +78,125 @@ public class ThreeBit {
     }
 
     private static void hideStego(byte[] imBytes, byte[] stego, int offset) {
-
+        
         for (int i = 0; i < stego.length; i++) {
 
 
             int byteVal = stego[i];
 
-            int count = 0;
             int bitVal;
             int shift;
-            int val;
 
-//            for (int j = 5; j >= 0; j -= 3) {
-//
-//                int bitVal = (byteVal >>> j) & 7;
-//
-//                imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-//
-//                offset++;
-//
-//            }
-            while (count < 3) {
+            //1
 
-                //1
-                
-                shift = 5;
+            shift = 5;
 
-                bitVal = (byteVal >>> shift) & 7;
+            bitVal = (byteVal >>> shift) & 7;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
+            //2
+
+            shift = 2;
+
+            bitVal = (byteVal >>> shift) & 7;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
+
+            //3
+
+            bitVal = byteVal & 3;
+
+            bitVal = bitVal << 1;
+
+
+            if (++i > stego.length) {
 
                 imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
 
-                offset++;
-
-                //2
-                
-                shift -= 3;
-
-                bitVal = (byteVal >>> shift) & 7;
-
-                imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
-
-                offset++;
-
-                
-                //3
-                
-                bitVal = byteVal & 2;
-
-                imBytes[offset] = (byte) ((imBytes[offset] & 0xFC) | bitVal);
-
-                byteVal = stego[i++];
-
-                shift = 7;
-
-                bitVal = (byteVal >>> shift) & 1;
-
-
+                break;
             }
+
+            int temp = stego[i];
+
+            shift = 7;
+
+            int bitTemp = (temp >>> shift) & 1;
+
+            bitVal = bitVal | bitTemp;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
+
+            //4
+
+            shift = 4;
+
+            bitVal = (temp >>> shift) & 7;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
+            //5
+
+            shift = 1;
+
+            bitVal = (temp >>> shift) & 7;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
+            //6
+
+
+            bitTemp = temp & 1;
+
+            if (++i > stego.length) {
+
+                imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+                break;
+            }
+
+            temp = stego[i];
+
+            shift = 6;
+
+            bitVal = (temp >>> shift) & 3;
+
+            bitVal = bitVal << 1;
+
+            bitVal = bitVal | bitTemp;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            //7
+
+            shift = 3;
+
+            bitVal = (temp >>> shift) & 7;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
+            //8
+
+            bitVal = (temp) & 7;
+
+            imBytes[offset] = (byte) ((imBytes[offset] & 0xF8) | bitVal);
+
+            offset++;
+
 
         }
     }
@@ -278,8 +341,12 @@ public class ThreeBit {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        int finalPosition = offset + (size * (DATA_SIZE / 2));
+        double data = Double.valueOf(Math.ceil(((double)size)*((double)DATA_SIZE/3.0)));
+        
+        int finalPosition = offset + (int)data;
 
+        System.out.println("data" + data);
+        
         if (finalPosition > imageBytes.length) {
             System.out.println("image end reached");
             return null;
@@ -292,7 +359,7 @@ public class ThreeBit {
             for (int i = 0; i < DATA_SIZE / 2; i++) {
                 hiddenBytes[j] = (byte) ((hiddenBytes[j] << 2) | (imageBytes[offset] & 3));
 
-                offset++;
+                offset++; 
             }
         }
 
