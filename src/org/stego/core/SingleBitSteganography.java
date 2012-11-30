@@ -5,13 +5,7 @@
 package org.stego.core;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +15,7 @@ import javax.imageio.ImageIO;
  *
  * @author ankur
  */
-public class DoubleBitSteganography {
+public class SingleBitSteganography {
 
     public static boolean hide(String fileName, String imageFileName) {
 
@@ -43,7 +37,7 @@ public class DoubleBitSteganography {
             byte[] imageBytes = commons.accessBytes(image);
 
 
-            if (!commons.doubleHide(imageBytes, stego)) {
+            if (!commons.singleHide(imageBytes, stego)) {
                 return false;
             }
 
@@ -74,11 +68,11 @@ public class DoubleBitSteganography {
                 return false;
             }
 
-            String msg = getMessage(imageBytes, msgLength, (commons.MAX_INT_LEN * commons.DATA_SIZE) / 2);
+            String msg = getMessage(imageBytes, msgLength, commons.MAX_INT_LEN * commons.DATA_SIZE);
 
             if (msg != null) {
 
-                commons.writeStringToFile("msg.txt", msg);
+                commons.writeStringToFile("abc.txt", msg);
 
             } else {
                 System.out.println("No message found");
@@ -116,7 +110,7 @@ public class DoubleBitSteganography {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        int finalPosition = offset + (size * (commons.DATA_SIZE / 2));
+        int finalPosition = offset + (size * commons.DATA_SIZE);
 
         if (finalPosition > imageBytes.length) {
             System.out.println("image end reached");
@@ -127,8 +121,8 @@ public class DoubleBitSteganography {
 
 
         for (int j = 0; j < size; j++) {
-            for (int i = 0; i < commons.DATA_SIZE / 2; i++) {
-                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 2) | (imageBytes[offset] & 3));
+            for (int i = 0; i < commons.DATA_SIZE; i++) {
+                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 1) | (imageBytes[offset] & 1));
 
                 offset++;
             }
@@ -138,8 +132,6 @@ public class DoubleBitSteganography {
     }
 
     private static String getMessage(byte[] imageBytes, int msgLength, int offset) {
-
-
         byte[] msgBytes = extractHiddenBytes(imageBytes, msgLength, offset);
 
         if (msgBytes == null) {
@@ -150,4 +142,5 @@ public class DoubleBitSteganography {
 
         return msg;
     }
+
 }
