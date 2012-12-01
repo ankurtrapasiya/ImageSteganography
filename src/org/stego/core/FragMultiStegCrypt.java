@@ -29,7 +29,7 @@ public class FragMultiStegCrypt {
     private static final int DATA_SIZE = 8;
     private static final int MAX_INT_LEN = 4;
 
-    public static boolean hide(String textFrm, String imFrm,String outputFileName) {
+    public static boolean hide(String textFrm, String imFrm,String outputFileName) throws LargeMessageException{
         try {
             
             byte[][] msgFrags = readByteFrags(textFrm);
@@ -408,16 +408,6 @@ public class FragMultiStegCrypt {
         }
         String password = new String(passBytes);
         return password;
-    }
-
-    public static void main(String[] args) {
-        String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t1.txt";
-        String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
-        String outputFileName="/home/ankur/NetBeansProjects/ImageSteganography/image/14.png0";
-        hide(fileName, imageFileName,outputFileName);
-        fileName = "/home/ankur/NetBeansProjects/ImageSteganography/abc.png";
-        reveal(fileName,outputFileName);
-        System.out.print("Ok");
     }
 
     public static String toBinary(byte[] bytes) {

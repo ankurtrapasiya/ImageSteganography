@@ -35,7 +35,7 @@ public class SingleHideEncryption {
     /**
      * @param args the command line arguments
      */
-    public static boolean hide(String textFnm, String imFnm, String outputFileName) {
+    public static boolean hide(String textFnm, String imFnm, String outputFileName) throws LargeMessageException{
         try {
 
             byte[] msgBytes = readTextBytes(textFnm);

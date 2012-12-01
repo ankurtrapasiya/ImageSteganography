@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import org.stego.core.DoubleBitSteganography;
 import org.stego.core.FragMultiStegCrypt;
+import org.stego.core.LargeMessageException;
 import org.stego.core.SingleBitSteganography;
 import org.stego.core.SingleHideEncryption;
 import org.stego.core.TripleBitSteganography;
@@ -564,7 +565,7 @@ public class PNGSteganography extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,7 +660,7 @@ public class PNGSteganography extends javax.swing.JFrame {
 
     private void btnRevealImageBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevealImageBrowseActionPerformed
         // TODO add your handling code here:
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File("./output/"));
 
@@ -682,25 +683,23 @@ public class PNGSteganography extends javax.swing.JFrame {
             }
 
         }
-        
+
     }//GEN-LAST:event_btnRevealImageBrowseActionPerformed
 
     private void btnRevealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevealActionPerformed
         // TODO add your handling code here:
-        
-        String txtFilePath=txtRevealImage.getText();
-        
-        if(txtFilePath.length()>0)
-        {
-            File f1=new File(txtFilePath);
-            
-            if(!(f1.exists()))
-            {
+
+        String txtFilePath = txtRevealImage.getText();
+
+        if (txtFilePath.length() > 0) {
+            File f1 = new File(txtFilePath);
+
+            if (!(f1.exists())) {
                 JOptionPane.showMessageDialog(this, "Please select appropriate files");
                 return;
             }
         }
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File("./output/"));
 
@@ -725,6 +724,12 @@ public class PNGSteganography extends javax.swing.JFrame {
                 fileName = file.getAbsolutePath();
 
                 if (fileName != null) {
+
+                    if (!Utils.getExtension(file).equals("txt")) {
+                        JOptionPane.showMessageDialog(null, "Please select txt file only");
+                        return;
+                    }
+
                     int i = 0;
 
                     if (radOneBit1.isSelected()) {
@@ -733,27 +738,26 @@ public class PNGSteganography extends javax.swing.JFrame {
                         i = 2;
                     } else if (radThreeBit1.isSelected()) {
                         i = 3;
-                    }if (radSingleHide1.isSelected()) {
+                    }
+                    if (radSingleHide1.isSelected()) {
                         i = 4;
                     } else if (radMultipleHide1.isSelected()) {
                         i = 5;
                     } else if (radFragmentHide1.isSelected()) {
                         i = 6;
                     }
-                    
+
                     boolean result = false;
                     if (i == 1) {
-                        result = SingleBitSteganography.reveal(txtRevealImage.getText(),fileName);
+                        result = SingleBitSteganography.reveal(txtRevealImage.getText(), fileName);
                     } else if (i == 2) {
-                        result = DoubleBitSteganography.reveal(txtRevealImage.getText(),fileName);
+                        result = DoubleBitSteganography.reveal(txtRevealImage.getText(), fileName);
                     } else if (i == 3) {
-                        result = TripleBitSteganography.reveal(txtRevealImage.getText(),fileName);
-                    }
-                    else if (i == 4) {
-                        result = SingleHideEncryption.reveal(txtRevealImage.getText(),fileName);
-                    }
-                    else if (i == 6) {
-                        result = FragMultiStegCrypt.reveal(txtRevealImage.getText(),fileName);
+                        result = TripleBitSteganography.reveal(txtRevealImage.getText(), fileName);
+                    } else if (i == 4) {
+                        result = SingleHideEncryption.reveal(txtRevealImage.getText(), fileName);
+                    } else if (i == 6) {
+                        result = FragMultiStegCrypt.reveal(txtRevealImage.getText(), fileName);
                     }
                     if (result) {
                         JOptionPane.showMessageDialog(this, "text has been revealed from the image file");
@@ -763,7 +767,7 @@ public class PNGSteganography extends javax.swing.JFrame {
                 }
             }
         }
-        
+
     }//GEN-LAST:event_btnRevealActionPerformed
 
     private void jMenuBar1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuBar1KeyReleased
@@ -771,27 +775,25 @@ public class PNGSteganography extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuBar1KeyReleased
 
     private void btnHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHideActionPerformed
-            // TODO add your handling code here:
+        // TODO add your handling code here:
 
-        
-        
-        String txtFilePath=txtTextFile.getText();
-        String txtImagePath=txtImageFile.getText();
-        
-        if(txtFilePath.length()>0 && txtImagePath.length()>0)
-        {
-            File f1=new File(txtFilePath);
-            File f2=new File(txtImagePath);
-            
-            if(!(f1.exists()&&f2.exists()))
-            {
+
+
+        String txtFilePath = txtTextFile.getText();
+        String txtImagePath = txtImageFile.getText();
+
+        if (txtFilePath.length() > 0 && txtImagePath.length() > 0) {
+            File f1 = new File(txtFilePath);
+            File f2 = new File(txtImagePath);
+
+            if (!(f1.exists() && f2.exists())) {
                 JOptionPane.showMessageDialog(this, "Please select appropriate files");
                 return;
             }
         }
-        
-        
-        
+
+
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File("./output/"));
 
@@ -816,6 +818,12 @@ public class PNGSteganography extends javax.swing.JFrame {
                 fileName = file.getAbsolutePath();
 
                 if (fileName != null) {
+
+                    if (!Utils.getExtension(file).equals("png")) {
+                        JOptionPane.showMessageDialog(null, "Please select png file only");
+                        return;
+                    }
+
                     int i = 0;
 
                     if (radOneBit.isSelected()) {
@@ -824,7 +832,8 @@ public class PNGSteganography extends javax.swing.JFrame {
                         i = 2;
                     } else if (radThreeBit.isSelected()) {
                         i = 3;
-                    }if (radSingleHide.isSelected()) {
+                    }
+                    if (radSingleHide.isSelected()) {
                         i = 4;
                     } else if (radMultipleHide.isSelected()) {
                         i = 5;
@@ -834,25 +843,28 @@ public class PNGSteganography extends javax.swing.JFrame {
 
 
                     boolean result = false;
-                    if (i == 1) {
-                        result = SingleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
-                    } else if (i == 2) {
-                        result = DoubleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(),fileName);
-                    } else if (i == 3) {
-                        result = TripleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(),fileName);
-                    }else if(i==4)
-                    {
-                        result=SingleHideEncryption.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
-                    }
-                    else if(i==6)
-                    {
-                        result=FragMultiStegCrypt.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
-                    }
+
                     
-                    if (result) {
-                        JOptionPane.showMessageDialog(this, "Your text has been hid in the image");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Please try again! ");
+                    try {
+                        if (i == 1) {
+                            result = SingleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                        } else if (i == 2) {
+                            result = DoubleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                        } else if (i == 3) {
+                            result = TripleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                        } else if (i == 4) {
+                            result = SingleHideEncryption.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                        } else if (i == 6) {
+                            result = FragMultiStegCrypt.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                        }
+
+                        if (result) {
+                            JOptionPane.showMessageDialog(this, "Your text has been hid in the image");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Please try again! ");
+                        }
+                    } catch (LargeMessageException ex) {
+                        JOptionPane.showMessageDialog(this, ex.getMessage());
                     }
                 }
             }

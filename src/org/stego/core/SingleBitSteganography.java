@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +18,7 @@ import javax.imageio.ImageIO;
  */
 public class SingleBitSteganography {
 
-    public static boolean hide(String fileName, String imageFileName,String outputFileName) {
+    public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException{
 
         String inputText = commons.readTextFile(fileName);
 
@@ -49,7 +50,7 @@ public class SingleBitSteganography {
         return true;
     }
 
-    public static boolean reveal(String fileName,String outputFilePath) {
+    public static boolean reveal(String fileName, String outputFilePath) {
         try {
 
             BufferedImage bi = ImageIO.read(new File(fileName));
@@ -73,7 +74,9 @@ public class SingleBitSteganography {
                 commons.writeStringToFile(outputFilePath, msg);
 
             } else {
-                System.out.println("No message found");
+
+                JOptionPane.showMessageDialog(null, "error reading the message");
+
                 return false;
             }
 
@@ -100,7 +103,7 @@ public class SingleBitSteganography {
                 | (lenBytes[3] & 0xff);
 
         if (msgLength <= 0 || msgLength > imageBytes.length) {
-            System.out.println("incorrect message length");
+            JOptionPane.showMessageDialog(null, "Incorrect message length");
             return -1;
         }
         return msgLength;
@@ -111,7 +114,7 @@ public class SingleBitSteganography {
         int finalPosition = offset + (size * commons.DATA_SIZE);
 
         if (finalPosition > imageBytes.length) {
-            System.out.println("image end reached");
+            JOptionPane.showMessageDialog(null, "Reached end of the image while reading data");
             return null;
         }
 
@@ -124,7 +127,7 @@ public class SingleBitSteganography {
                 offset++;
             }
         }
-       return hiddenBytes;
+        return hiddenBytes;
     }
 
     private static String getMessage(byte[] imageBytes, int msgLength, int offset) {
@@ -138,5 +141,4 @@ public class SingleBitSteganography {
 
         return msg;
     }
-
 }

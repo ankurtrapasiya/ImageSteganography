@@ -22,7 +22,7 @@ import javax.imageio.ImageIO;
  * @author ankur
  */
 public class commons {
-    
+
     public static final int DATA_SIZE = 8;
     public static final int MAX_INT_LEN = 4;
 
@@ -33,20 +33,20 @@ public class commons {
      */
     public static byte[] buildStego(String inputText) {
         byte[] stego = null;
-        
+
         byte[] msgBytes = inputText.getBytes();
 
         //gives size of the data 
         byte[] dataLength = intToBytes(msgBytes.length);
-        
+
         int totalLen = dataLength.length + msgBytes.length;
-        
+
         stego = new byte[totalLen];
-        
+
         System.arraycopy(dataLength, 0, stego, 0, dataLength.length);
-        
+
         System.arraycopy(msgBytes, 0, stego, dataLength.length, msgBytes.length);
-        
+
         return stego;
     }
 
@@ -58,12 +58,12 @@ public class commons {
      */
     public static byte[] intToBytes(int i) {
         byte[] byteArr = new byte[MAX_INT_LEN];
-        
+
         byteArr[0] = (byte) ((i >>> 24) & 0xFF);
         byteArr[1] = (byte) ((i >>> 16) & 0xFF);
         byteArr[2] = (byte) ((i >>> 8) & 0xFF);
         byteArr[3] = (byte) (i & 0xFF);
-        
+
         return byteArr;
     }
 
@@ -75,7 +75,7 @@ public class commons {
     public static byte[] accessBytes(BufferedImage image) {
         WritableRaster raster = image.getRaster();
         DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-        
+
         return buffer.getData();
     }
 
@@ -86,7 +86,7 @@ public class commons {
      *
      */
     public static boolean writeImageToFile(String fileName, BufferedImage image) {
-        
+
         File file = new File(fileName);
         try {
             ImageIO.write(image, "png", file);
@@ -103,24 +103,24 @@ public class commons {
      *
      */
     public static String readTextFile(String fileName) {
-        
+
         StringBuilder text = new StringBuilder();
-        
+
         try {
-            
+
             BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
             String str = null;
             while ((str = br.readLine()) != null) {
-                
+
                 text.append(str);
                 text.append("\n");
-                
+
             }
-            
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         return text.toString();
     }
 
@@ -128,7 +128,7 @@ public class commons {
      *
      * write string data to file
      *
-     */    
+     */
     public static boolean writeStringToFile(String fileName, String message) {
         File file = new File(fileName);
         BufferedWriter bw = null;
@@ -149,62 +149,58 @@ public class commons {
         }
     }
 
-    /*
+    /**
      * Actual hiding of single bit data into image
      * 
      */
     public static void singleHideStego(byte[] imBytes, byte[] stego, int offset) {
-        
+
         for (int i = 0; i < stego.length; i++) {
-            
+
             int byteVal = stego[i];
-            
+
             for (int j = 7; j >= 0; j--) {
                 int bitVal = (byteVal >>> j) & 1;
-                
+
                 imBytes[offset] = (byte) ((imBytes[offset] & 0xFE) | bitVal);
-                
+
                 offset++;
-                
+
             }
         }
     }
-  
-    
-    /*
+
+    /**
      * Hide single bit data into image
      * 
      */
-    public static boolean singleHide(byte[] imBytes, byte[] stego) {
+    public static boolean singleHide(byte[] imBytes, byte[] stego) throws LargeMessageException {
         int imageLength = imBytes.length;
 
         int totalLength = stego.length;
 
         if ((totalLength * commons.DATA_SIZE) > imageLength) {
-            System.out.println("too big message for image...oops");
-            return false;
+            throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
         commons.singleHideStego(imBytes, stego, 0);
         return true;
     }
 
-    
-    
-    /*
+    /**
      * Actual hiding of double bit data into image
      * 
      */
     public static void doubleHideStego(byte[] imBytes, byte[] stego, int offset) {
 
         for (int i = 0; i < stego.length; i++) {
-            
+
 
             int byteVal = stego[i];
 
             for (int j = 6; j >= 0; j -= 2) {
 
-                
+
                 int bitVal = (byteVal >>> j) & 3;
 
                 imBytes[offset] = (byte) ((imBytes[offset] & 0xFC) | bitVal);
@@ -215,49 +211,47 @@ public class commons {
         }
     }
 
-    /*
+    /**
      * Hide double bit data into image
      * 
      */
-    public static boolean doubleHide(byte[] imBytes, byte[] stego) {
+    public static boolean doubleHide(byte[] imBytes, byte[] stego) throws LargeMessageException {
         int imageLength = imBytes.length;
 
         int totalLength = stego.length;
 
         if ((totalLength * (DATA_SIZE / 2)) > imageLength) {
-            System.out.println("too big message for image...oops");
-            return false;
+            throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
         commons.doubleHideStego(imBytes, stego, 0);
         return true;
     }
-    
-    /*
+
+    /**
      * Actual hiding of three bit data into image
      * 
      */
-     public static boolean tripleHide(byte[] imBytes, byte[] stego) {
+    public static boolean tripleHide(byte[] imBytes, byte[] stego) throws LargeMessageException{
         int imageLength = imBytes.length;
 
         int totalLength = stego.length;
 
         System.out.println("total lenght" + totalLength);
-        
-        if ((totalLength * ((int)((double) DATA_SIZE / 3.0))) > imageLength) {
-            System.out.println("too big message for image...oops");
-            return false;
+
+        if ((totalLength * ((int) ((double) DATA_SIZE / 3.0))) > imageLength) {
+            throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
         tripleHideStego(imBytes, stego, 0);
         return true;
     }
-     
-     /*
+
+    /**
      * Hide three bit data into image
      * 
      */
-     public static void tripleHideStego(byte[] imBytes, byte[] stego, int offset) {
+    public static void tripleHideStego(byte[] imBytes, byte[] stego, int offset) {
 
         /*for (int i = 0; i < stego.length; i++) {
 
@@ -404,5 +398,4 @@ public class commons {
         }
 
     }
-
 }

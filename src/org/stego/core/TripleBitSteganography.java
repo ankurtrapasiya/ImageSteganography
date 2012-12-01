@@ -5,25 +5,20 @@
 package org.stego.core;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ankur
  */
 public class TripleBitSteganography {
-    
-    public static boolean hide(String fileName, String imageFileName,String outputFileName) {
+
+    public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException{
 
         String inputText = commons.readTextFile(fileName);
 
@@ -54,8 +49,8 @@ public class TripleBitSteganography {
 
         return true;
     }
-   
-    public static boolean reveal(String fileName,String outputFilePath) {
+
+    public static boolean reveal(String fileName, String outputFilePath) {
         try {
 
             BufferedImage bi = ImageIO.read(new File(fileName));
@@ -79,7 +74,7 @@ public class TripleBitSteganography {
                 commons.writeStringToFile(outputFilePath, msg);
 
             } else {
-                System.out.println("No message found");
+                JOptionPane.showMessageDialog(null, "error reading the message");
                 return false;
             }
 
@@ -106,7 +101,7 @@ public class TripleBitSteganography {
                 | (lenBytes[3] & 0xff);
 
         if (msgLength <= 0 || msgLength > imageBytes.length) {
-            System.out.println("incorrect message length");
+            JOptionPane.showMessageDialog(null, "Incorrect message length");
             return -1;
         }
         return msgLength;
@@ -121,7 +116,7 @@ public class TripleBitSteganography {
         System.out.println("data" + data);
 
         if (finalPosition > imageBytes.length) {
-            System.out.println("image end reached");
+            JOptionPane.showMessageDialog(null, "Reached end of the image while reading data");
             return null;
         }
 
@@ -200,8 +195,6 @@ public class TripleBitSteganography {
 
         String msg = new String(msgBytes);
 
-        System.out.println("message" + msg);
-
         return msg;
     }
 
@@ -278,8 +271,8 @@ public class TripleBitSteganography {
             offset++;
 
         }
-               
-        
+
+
         return hiddenBytes;
     }
 }
