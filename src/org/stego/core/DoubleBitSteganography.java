@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
  */
 public class DoubleBitSteganography {
 
-    public static boolean hide(String fileName, String imageFileName) {
+    public static boolean hide(String fileName, String imageFileName,String outputFileName) {
 
         String inputText = commons.readTextFile(fileName);
 
@@ -47,8 +47,6 @@ public class DoubleBitSteganography {
                 return false;
             }
 
-            String outputFileName = "abc.png";
-
             return commons.writeImageToFile(outputFileName, image);
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,7 +55,7 @@ public class DoubleBitSteganography {
         return true;
     }
 
-    public static boolean reveal(String fileName) {
+    public static boolean reveal(String fileName,String outputFilePath) {
         try {
 
             BufferedImage bi = ImageIO.read(new File(fileName));
@@ -78,7 +76,7 @@ public class DoubleBitSteganography {
 
             if (msg != null) {
 
-                commons.writeStringToFile("msg.txt", msg);
+                commons.writeStringToFile(outputFilePath, msg);
 
             } else {
                 System.out.println("No message found");

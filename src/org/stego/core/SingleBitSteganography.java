@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
  */
 public class SingleBitSteganography {
 
-    public static boolean hide(String fileName, String imageFileName) {
+    public static boolean hide(String fileName, String imageFileName,String outputFileName) {
 
         String inputText = commons.readTextFile(fileName);
 
@@ -41,8 +41,6 @@ public class SingleBitSteganography {
                 return false;
             }
 
-            String outputFileName = "abc.png";
-
             return commons.writeImageToFile(outputFileName, image);
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,7 +49,7 @@ public class SingleBitSteganography {
         return true;
     }
 
-    public static boolean reveal(String fileName) {
+    public static boolean reveal(String fileName,String outputFilePath) {
         try {
 
             BufferedImage bi = ImageIO.read(new File(fileName));
@@ -72,7 +70,7 @@ public class SingleBitSteganography {
 
             if (msg != null) {
 
-                commons.writeStringToFile("abc.txt", msg);
+                commons.writeStringToFile(outputFilePath, msg);
 
             } else {
                 System.out.println("No message found");
@@ -123,12 +121,10 @@ public class SingleBitSteganography {
         for (int j = 0; j < size; j++) {
             for (int i = 0; i < commons.DATA_SIZE; i++) {
                 hiddenBytes[j] = (byte) ((hiddenBytes[j] << 1) | (imageBytes[offset] & 1));
-
                 offset++;
             }
         }
-
-        return hiddenBytes;
+       return hiddenBytes;
     }
 
     private static String getMessage(byte[] imageBytes, int msgLength, int offset) {

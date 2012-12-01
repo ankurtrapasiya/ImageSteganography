@@ -5,6 +5,7 @@
 package org.stego.core;
 
 import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -81,4 +82,5 @@ public class Utils {
             return "select only png files";
         }
     }
+         
 }
