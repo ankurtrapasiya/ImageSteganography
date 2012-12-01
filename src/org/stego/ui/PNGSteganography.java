@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileFilter;
 import org.stego.core.DoubleBitSteganography;
 import org.stego.core.FragMultiStegCrypt;
 import org.stego.core.LargeMessageException;
+import org.stego.core.MultiStegCrypt;
 import org.stego.core.SingleBitSteganography;
 import org.stego.core.SingleHideEncryption;
 import org.stego.core.TripleBitSteganography;
@@ -756,7 +757,9 @@ public class PNGSteganography extends javax.swing.JFrame {
                         result = TripleBitSteganography.reveal(txtRevealImage.getText(), fileName);
                     } else if (i == 4) {
                         result = SingleHideEncryption.reveal(txtRevealImage.getText(), fileName);
-                    } else if (i == 6) {
+                    } else if (i == 5) {
+                            result = MultiStegCrypt.reveal(txtRevealImage.getText(), fileName);
+                    }else if (i == 6) {
                         result = FragMultiStegCrypt.reveal(txtRevealImage.getText(), fileName);
                     }
                     if (result) {
@@ -839,7 +842,7 @@ public class PNGSteganography extends javax.swing.JFrame {
                         i = 5;
                     } else if (radFragmentHide.isSelected()) {
                         i = 6;
-                    }
+                    } 
 
 
                     boolean result = false;
@@ -854,7 +857,9 @@ public class PNGSteganography extends javax.swing.JFrame {
                             result = TripleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
                         } else if (i == 4) {
                             result = SingleHideEncryption.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
-                        } else if (i == 6) {
+                        } else if (i == 5) {
+                            result = MultiStegCrypt.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                        }else if (i == 6) {
                             result = FragMultiStegCrypt.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
                         }
 

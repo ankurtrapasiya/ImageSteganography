@@ -20,13 +20,13 @@ public class DoubleBitSteganography {
 
     public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException{
 
-        String inputText = commons.readTextFile(fileName);
+        String inputText = Commons.readTextFile(fileName);
 
         if (inputText.length() == 0) {
             return false;
         }
 
-        byte[] stego = commons.buildStego(inputText);
+        byte[] stego = Commons.buildStego(inputText);
         try {
 
             BufferedImage image = ImageIO.read(new File(imageFileName));
@@ -35,14 +35,14 @@ public class DoubleBitSteganography {
                 return false;
             }
 
-            byte[] imageBytes = commons.accessBytes(image);
+            byte[] imageBytes = Commons.accessBytes(image);
 
 
-            if (!commons.doubleHide(imageBytes, stego)) {
+            if (!Commons.doubleHide(imageBytes, stego)) {
                 return false;
             }
 
-            return commons.writeImageToFile(outputFileName, image);
+            return Commons.writeImageToFile(outputFileName, image);
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,7 +59,7 @@ public class DoubleBitSteganography {
                 return false;
             }
 
-            byte[] imageBytes = commons.accessBytes(bi);
+            byte[] imageBytes = Commons.accessBytes(bi);
 
             int msgLength = getMsgLength(imageBytes, 0);
 
@@ -67,11 +67,11 @@ public class DoubleBitSteganography {
                 return false;
             }
 
-            String msg = getMessage(imageBytes, msgLength, (commons.MAX_INT_LEN * commons.DATA_SIZE) / 2);
+            String msg = getMessage(imageBytes, msgLength, (Commons.MAX_INT_LEN * Commons.DATA_SIZE) / 2);
 
             if (msg != null) {
 
-                commons.writeStringToFile(outputFilePath, msg);
+                Commons.writeStringToFile(outputFilePath, msg);
 
             } else {
                 JOptionPane.showMessageDialog(null, "error reading the message");
@@ -89,7 +89,7 @@ public class DoubleBitSteganography {
 
     private static int getMsgLength(byte[] imageBytes, int offset) {
 
-        byte[] lenBytes = extractHiddenBytes(imageBytes, commons.MAX_INT_LEN, offset);
+        byte[] lenBytes = extractHiddenBytes(imageBytes, Commons.MAX_INT_LEN, offset);
 
         if (lenBytes == null) {
             return -1;
@@ -109,7 +109,7 @@ public class DoubleBitSteganography {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        int finalPosition = offset + (size * (commons.DATA_SIZE / 2));
+        int finalPosition = offset + (size * (Commons.DATA_SIZE / 2));
 
         if (finalPosition > imageBytes.length) {
             JOptionPane.showMessageDialog(null, "Reached end of the image while reading data");
@@ -120,7 +120,7 @@ public class DoubleBitSteganography {
 
 
         for (int j = 0; j < size; j++) {
-            for (int i = 0; i < commons.DATA_SIZE / 2; i++) {
+            for (int i = 0; i < Commons.DATA_SIZE / 2; i++) {
                 hiddenBytes[j] = (byte) ((hiddenBytes[j] << 2) | (imageBytes[offset] & 3));
 
                 offset++;

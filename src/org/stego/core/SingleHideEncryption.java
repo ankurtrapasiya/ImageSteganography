@@ -57,19 +57,19 @@ public class SingleHideEncryption {
                 return false;
             }
             byte imBytes[] = accessBytes(im);
-            if (!commons.singleHide(imBytes, stego)) // im is modified with the stego
+            if (!Commons.singleHide(imBytes, stego)) // im is modified with the stego
             {
                 return false;
             }
 
 
-            return commons.writeImageToFile(outputFileName, im);
+            return Commons.writeImageToFile(outputFileName, im);
         } catch (Exception e) {
             return false;
         }
     }
 
-    private static String genPassword() {
+    public static String genPassword() {
         String availChars =
                 "abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
         StringBuffer sb = new StringBuffer(PASSWORD_LEN);
@@ -80,7 +80,7 @@ public class SingleHideEncryption {
         return sb.toString();
     }
 
-    private static byte[] encryptMsgBytes(byte[] msgBytes,
+    public static byte[] encryptMsgBytes(byte[] msgBytes,
             String password) // encrypt a message (a byte array) using the password
     {
         BasicBinaryEncryptor bbe = new BasicBinaryEncryptor();
@@ -120,7 +120,7 @@ public class SingleHideEncryption {
             String msg = extractMsg(imBytes, 0);
             if (msg != null) { // save message in a text file
 
-                retval=commons.writeStringToFile(outputFileFile, msg);
+                retval=Commons.writeStringToFile(outputFileFile, msg);
             } else {
                 System.out.println("No message found");
             }
@@ -130,7 +130,7 @@ public class SingleHideEncryption {
         return retval;
     } //
 
-    private static String extractMsg(byte[] imBytes, int offset) {
+    public static String extractMsg(byte[] imBytes, int offset) {
         String password = getPassword(imBytes, offset);
         if (password == null) {
             return null;
@@ -224,7 +224,7 @@ public class SingleHideEncryption {
     }
 
     private static byte[] readTextBytes(String filename) throws FileNotFoundException {
-        String read = commons.readTextFile(filename);
+        String read = Commons.readTextFile(filename);
         byte[] b = read.getBytes();
 
 

@@ -20,13 +20,13 @@ public class TripleBitSteganography {
 
     public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException{
 
-        String inputText = commons.readTextFile(fileName);
+        String inputText = Commons.readTextFile(fileName);
 
         if (inputText.length() == 0) {
             return false;
         }
 
-        byte[] stego = commons.buildStego(inputText);
+        byte[] stego = Commons.buildStego(inputText);
         try {
 
             BufferedImage image = ImageIO.read(new File(imageFileName));
@@ -35,14 +35,14 @@ public class TripleBitSteganography {
                 return false;
             }
 
-            byte[] imageBytes = commons.accessBytes(image);
+            byte[] imageBytes = Commons.accessBytes(image);
 
 
-            if (!commons.tripleHide(imageBytes, stego)) {
+            if (!Commons.tripleHide(imageBytes, stego)) {
                 return false;
             }
 
-            return commons.writeImageToFile(outputFileName, image);
+            return Commons.writeImageToFile(outputFileName, image);
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,7 +59,7 @@ public class TripleBitSteganography {
                 return false;
             }
 
-            byte[] imageBytes = commons.accessBytes(bi);
+            byte[] imageBytes = Commons.accessBytes(bi);
 
             int msgLength = getMsgLength(imageBytes, 0);
 
@@ -67,11 +67,11 @@ public class TripleBitSteganography {
                 return false;
             }
 
-            String msg = getMessage(imageBytes, msgLength, Double.valueOf(Math.ceil(((double) commons.MAX_INT_LEN) * ((double) commons.DATA_SIZE / 3.0))).intValue());
+            String msg = getMessage(imageBytes, msgLength, Double.valueOf(Math.ceil(((double) Commons.MAX_INT_LEN) * ((double) Commons.DATA_SIZE / 3.0))).intValue());
 
             if (msg != null) {
 
-                commons.writeStringToFile(outputFilePath, msg);
+                Commons.writeStringToFile(outputFilePath, msg);
 
             } else {
                 JOptionPane.showMessageDialog(null, "error reading the message");
@@ -89,7 +89,7 @@ public class TripleBitSteganography {
 
     private static int getMsgLength(byte[] imageBytes, int offset) {
 
-        byte[] lenBytes = extractHiddenBytes(imageBytes, commons.MAX_INT_LEN, offset);
+        byte[] lenBytes = extractHiddenBytes(imageBytes, Commons.MAX_INT_LEN, offset);
 
         if (lenBytes == null) {
             return -1;
@@ -109,7 +109,7 @@ public class TripleBitSteganography {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        double data = Double.valueOf(Math.ceil(((double) size) * ((double) commons.DATA_SIZE / 3.0)));
+        double data = Double.valueOf(Math.ceil(((double) size) * ((double) Commons.DATA_SIZE / 3.0)));
 
         int finalPosition = offset + (int) data;
 
@@ -199,7 +199,7 @@ public class TripleBitSteganography {
     }
 
     private static byte[] getActualData(byte[] imageBytes, int size, int offset) {
-        double data = Double.valueOf(Math.ceil(((double) size) * ((double) commons.DATA_SIZE / 3.0)));
+        double data = Double.valueOf(Math.ceil(((double) size) * ((double) Commons.DATA_SIZE / 3.0)));
 
         int finalPosition = offset + (int) data;
 

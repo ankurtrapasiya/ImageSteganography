@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  *
  * @author ankur
  */
-public class commons {
+public class Commons {
 
     public static final int DATA_SIZE = 8;
     public static final int MAX_INT_LEN = 4;
@@ -179,11 +179,11 @@ public class commons {
 
         int totalLength = stego.length;
 
-        if ((totalLength * commons.DATA_SIZE) > imageLength) {
+        if ((totalLength * Commons.DATA_SIZE) > imageLength) {
             throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
-        commons.singleHideStego(imBytes, stego, 0);
+        Commons.singleHideStego(imBytes, stego, 0);
         return true;
     }
 
@@ -224,7 +224,7 @@ public class commons {
             throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
-        commons.doubleHideStego(imBytes, stego, 0);
+        Commons.doubleHideStego(imBytes, stego, 0);
         return true;
     }
 
@@ -398,4 +398,7 @@ public class commons {
         }
 
     }
+
+
+ 
 }

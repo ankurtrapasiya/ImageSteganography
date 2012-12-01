@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,26 +21,26 @@ public class MultiStegCrypt {
     private static final String STEGO_HEADER = "Header1";
     private static int DATA_SIZE = 8;
 
-    public static boolean hide(String fileName, String imageFileName) {
+    public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException {
 
         //Read the given text file using Utils.readTextFile(fileName) method  
-        String msgBytes = commons.readTextFile(fileName);
+        String msg = Commons.readTextFile(fileName);
         //Check if it exists or not
-        if (msgBytes.length() == 0) {
+        if (msg.length() == 0) {
             return false;
         }
 
         // Generate password for encrypted data 
-        String password = null;
-        //password = Utils.genPassword();
-        byte[] passBytes = null;
-        //passBytes = password.getBytes();
+        String password = SingleHideEncryption.genPassword();
+        byte[] passBytes = password.getBytes();
 
         // use password to encrypt the message
-        byte[] encryptedMsgBytes = null;
-        //encryptedMsgBytes = encryptMsgBytes(msgBytes, password);
-        //if (encryptedMsgBytes == null)
-        //return false;      
+        byte[] msgBytes = msg.getBytes();
+        byte[] encryptedMsgBytes = SingleHideEncryption.encryptMsgBytes(msgBytes, password);
+
+        if (encryptedMsgBytes == null) {
+            return false;
+        }
 
 
         //Build the stego
@@ -55,19 +56,19 @@ public class MultiStegCrypt {
             }
 
             //Convert it into bytes format
-            byte[] imageBytes = commons.accessBytes(image);
+            byte[] imageBytes = Commons.accessBytes(image);
 
             //Hide multiple methods using multiHide method
             if (!multiHide(imageBytes, stego)) {
                 return false;
             }
 
-            String outputFileName = "abc.png";
 
             //Store file using Utils.writeImageToFile method
-            return commons.writeImageToFile(outputFileName, image);
+            return Commons.writeImageToFile(outputFileName, image);
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
         return true;
@@ -80,7 +81,7 @@ public class MultiStegCrypt {
         //declaring header
         byte headerBytes[] = STEGO_HEADER.getBytes();
         //length of the encrypted message
-        byte[] lenBs = commons.intToBytes(encryptedMsgBytes.length);
+        byte[] lenBs = Commons.intToBytes(encryptedMsgBytes.length);
 
         //int totalLen = dataLength.length + msgBytes.length;
         int totalLen = STEGO_HEADER.length() + passBytes.length + lenBs.length + encryptedMsgBytes.length;
@@ -100,7 +101,7 @@ public class MultiStegCrypt {
         return stego;
     }
 
-    private static boolean multiHide(byte[] imageBytes, byte[] stego) {
+    private static boolean multiHide(byte[] imageBytes, byte[] stego) throws LargeMessageException {
 
         int imLen = imageBytes.length;
         //System.out.println("Byte length of image: " + imLen);
@@ -111,8 +112,7 @@ public class MultiStegCrypt {
         // check that the stego will fit into the image
         /* multiply stego length by number of image bytes required to store one stego byte */
         if ((totalLen * DATA_SIZE) > imLen) {
-            System.out.println("Image not big enough for message");
-            return false;
+            throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
         // calculate the number of times the stego can be hidden
@@ -121,9 +121,83 @@ public class MultiStegCrypt {
 
         for (int i = 0; i < numHides; i++) // hide stego numHides times
         {
-            commons.singleHideStego(imageBytes, stego, (i * totalLen * DATA_SIZE));
+            Commons.singleHideStego(imageBytes, stego, (i * totalLen * DATA_SIZE));
         }
 
         return true;
+    }
+
+    private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
+
+        int finalPosition = offset + (size * Commons.DATA_SIZE);
+
+        if (finalPosition > imageBytes.length) {
+            JOptionPane.showMessageDialog(null, "Reached end of the image while reading data");
+            return null;
+        }
+
+        byte[] hiddenBytes = new byte[size];
+
+
+        for (int j = 0; j < size; j++) {
+            for (int i = 0; i < Commons.DATA_SIZE; i++) {
+                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 1) | (imageBytes[offset] & 1));
+                offset++;
+            }
+        }
+        return hiddenBytes;
+    }
+
+    private static boolean findHeader(byte[] imBytes, int offset) {
+        byte[] headerBytes =
+                extractHiddenBytes(imBytes, STEGO_HEADER.length(), offset);
+        if (headerBytes == null) {
+            return false;
+        }
+        String header = new String(headerBytes);
+        if (!header.equals(STEGO_HEADER)) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean reveal(String fileName, String outputFileName) {
+        // get the image's data as a byte array
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read(new File(fileName));
+        } catch (IOException ex) {
+            Logger.getLogger(MultiStegCrypt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (bi == null) {
+            return false;
+        }
+        byte[] imBytes = Commons.accessBytes(bi);
+        int imLen = imBytes.length;
+        int headOffset = STEGO_HEADER.length() * DATA_SIZE;
+        // stego header space used in image
+        String msg = null;
+        boolean foundMsg = false;
+        int i = 0;
+        while ((i < imLen) && !foundMsg) {
+            if (!findHeader(imBytes, i)) // no stego header found at pos i
+            {
+                i++; // move on
+            } else { // found header
+                i += headOffset; // move past stego header
+                msg = SingleHideEncryption.extractMsg(imBytes, i);
+                if (msg != null) {
+                    foundMsg = true;
+                }
+            }
+        }
+
+        if (foundMsg) {
+
+            return Commons.writeStringToFile(outputFileName, msg);
+        } else {
+            JOptionPane.showMessageDialog(null, "error reading the message");
+            return false;
+        }
     }
 }

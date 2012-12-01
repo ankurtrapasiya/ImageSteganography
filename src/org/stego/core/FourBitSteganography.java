@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
  *
  * @author ankur
  */
-public class SingleBitSteganography {
+public class FourBitSteganography {
 
-    public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException{
+    public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException {
 
         String inputText = Commons.readTextFile(fileName);
 

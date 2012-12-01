@@ -52,13 +52,13 @@ public class FragMultiStegCrypt {
             if (im == null) {
                 return false;
             }
-            byte imBytes[] = commons.accessBytes(im);
+            byte imBytes[] = Commons.accessBytes(im);
             
             if (!multipleHide(imBytes, stegoFrags)) {
                 return false;
             }
            
-            return commons.writeImageToFile(outputFileName, im);
+            return Commons.writeImageToFile(outputFileName, im);
         } catch (IOException ex) {
             Logger.getLogger(FragMultiStegCrypt.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -67,7 +67,7 @@ public class FragMultiStegCrypt {
     }
 
     public static byte[][] readByteFrags(String fnm) {
-        String inputText = commons.readTextFile(fnm);
+        String inputText = Commons.readTextFile(fnm);
         
         if ((inputText == null) || (inputText.length() == 0)) {
             return null;
@@ -155,8 +155,8 @@ public class FragMultiStegCrypt {
         { 
             byte headerBytes[] = STEGO_HEADER.getBytes(); 
 
-            byte[] fragNumBs = commons.intToBytes(i);
-            byte[] lenBs = commons.intToBytes(encryptedFrag.length);
+            byte[] fragNumBs = Commons.intToBytes(i);
+            byte[] lenBs = Commons.intToBytes(encryptedFrag.length);
             int totalLen = STEGO_HEADER.length() + fragNumBs.length
                     + passBytes.length + lenBs.length
                     + encryptedFrag.length;
@@ -308,7 +308,7 @@ public class FragMultiStegCrypt {
                             System.out.println("Storing fragment " + fNum);
                             msgFrags[fNum] = msgFrag;
                             numFragsFound++;
-                            i += (PASSWORD_LEN + commons.MAX_INT_LEN
+                            i += (PASSWORD_LEN + Commons.MAX_INT_LEN
                                     + currMsgFragLen) * DATA_SIZE;
                             
                         }
@@ -380,7 +380,7 @@ public class FragMultiStegCrypt {
             if (im == null) {
                 return false;
             }
-            byte[] imBytes = commons.accessBytes(im);
+            byte[] imBytes = Commons.accessBytes(im);
 //            int len=Utils.getMsgLength(imBytes, 0);
 //            System.out.print("Size ;- "+len+"\n");
             //System.out.print(Utils.getMessage(imBytes,len,0));
@@ -392,7 +392,7 @@ public class FragMultiStegCrypt {
             }
             String msg = combineFragments(msgFrags, numFragsFound);
             
-            return commons.writeStringToFile(outputFileName, msg); // save message
+            return Commons.writeStringToFile(outputFileName, msg); // save message
         } 
         catch (IOException ex) {
             Logger.getLogger(FragMultiStegCrypt.class.getName()).log(Level.SEVERE, null, ex);
