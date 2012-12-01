@@ -45,7 +45,7 @@ public class SingleBitSteganographyTest {
         String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t1.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
         boolean expResult = true;
-        boolean result = SingleBitSteganography.hide(fileName, imageFileName);
+        boolean result = SingleBitSteganography.hide(fileName, imageFileName,"abc.png");
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -59,7 +59,7 @@ public class SingleBitSteganographyTest {
         System.out.println("reveal");
         String fileName = "abc.png";
         boolean expResult = true;
-        boolean result = SingleBitSteganography.reveal(fileName);
+        boolean result = SingleBitSteganography.reveal(fileName,"r1.txt");
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

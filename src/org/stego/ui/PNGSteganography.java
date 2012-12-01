@@ -12,7 +12,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import org.stego.core.DoubleBitSteganography;
+import org.stego.core.FragMultiStegCrypt;
 import org.stego.core.SingleBitSteganography;
+import org.stego.core.SingleHideEncryption;
 import org.stego.core.TripleBitSteganography;
 import org.stego.core.Utils;
 
@@ -57,9 +59,9 @@ public class PNGSteganography extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        rbmultiplehide = new javax.swing.JRadioButton();
-        rbsinglehide = new javax.swing.JRadioButton();
-        rbfragmenthide = new javax.swing.JRadioButton();
+        radMultipleHide = new javax.swing.JRadioButton();
+        radSingleHide = new javax.swing.JRadioButton();
+        radFragmentHide = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         txtTextFile = new javax.swing.JTextField();
         btnBrowseTextFile = new javax.swing.JButton();
@@ -79,15 +81,15 @@ public class PNGSteganography extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
-        rbrevealonebit = new javax.swing.JRadioButton();
-        rbrevealtwobit = new javax.swing.JRadioButton();
-        rbrevealthreebit = new javax.swing.JRadioButton();
+        radOneBit1 = new javax.swing.JRadioButton();
+        radTwoBit1 = new javax.swing.JRadioButton();
+        radThreeBit1 = new javax.swing.JRadioButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
-        rbrevealmultiplehide = new javax.swing.JRadioButton();
-        rbrevealsinglehide = new javax.swing.JRadioButton();
-        rbrevealfragmenthide = new javax.swing.JRadioButton();
+        radMultipleHide1 = new javax.swing.JRadioButton();
+        radSingleHide1 = new javax.swing.JRadioButton();
+        radFragmentHide1 = new javax.swing.JRadioButton();
         jSeparator9 = new javax.swing.JSeparator();
         btnReveal = new javax.swing.JButton();
         btnReset2 = new javax.swing.JButton();
@@ -161,9 +163,9 @@ public class PNGSteganography extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonGroup2.add(radOneBit);
-        buttonGroup2.add(radTwoBit);
-        buttonGroup2.add(radThreeBit);
+        buttonGroup1.add(radOneBit);
+        buttonGroup1.add(radTwoBit);
+        buttonGroup1.add(radThreeBit);
 
         tabSelect1.addTab("select bits", jPanel3);
 
@@ -171,16 +173,16 @@ public class PNGSteganography extends javax.swing.JFrame {
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        rbmultiplehide.setText("Multiple Hide");
+        radMultipleHide.setText("Multiple Hide");
 
-        rbsinglehide.setText("Single Hide");
+        radSingleHide.setText("Single Hide");
 
-        rbfragmenthide.setText("Fragment Hide");
-        buttonGroup1.add(rbsinglehide);
+        radFragmentHide.setText("Fragment Hide");
+        buttonGroup1.add(radSingleHide);
 
-        buttonGroup1.add(rbmultiplehide);
+        buttonGroup1.add(radMultipleHide);
 
-        buttonGroup1.add(rbfragmenthide);
+        buttonGroup1.add(radFragmentHide);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -193,9 +195,9 @@ public class PNGSteganography extends javax.swing.JFrame {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbmultiplehide)
-                    .addComponent(rbsinglehide)
-                    .addComponent(rbfragmenthide))
+                    .addComponent(radMultipleHide)
+                    .addComponent(radSingleHide)
+                    .addComponent(radFragmentHide))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -209,11 +211,11 @@ public class PNGSteganography extends javax.swing.JFrame {
                             .addComponent(jLabel3)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(rbsinglehide)
+                        .addComponent(radSingleHide)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbmultiplehide)
+                        .addComponent(radMultipleHide)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbfragmenthide)))
+                        .addComponent(radFragmentHide)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -349,11 +351,11 @@ public class PNGSteganography extends javax.swing.JFrame {
 
         jSeparator8.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        rbrevealonebit.setText("1 bit");
+        radOneBit1.setText("1 bit");
 
-        rbrevealtwobit.setText("2 bit");
+        radTwoBit1.setText("2 bit");
 
-        rbrevealthreebit.setText("3 bit");
+        radThreeBit1.setText("3 bit");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -366,9 +368,9 @@ public class PNGSteganography extends javax.swing.JFrame {
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbrevealtwobit)
-                    .addComponent(rbrevealonebit)
-                    .addComponent(rbrevealthreebit))
+                    .addComponent(radTwoBit1)
+                    .addComponent(radOneBit1)
+                    .addComponent(radThreeBit1))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -382,17 +384,17 @@ public class PNGSteganography extends javax.swing.JFrame {
                             .addComponent(jLabel8)))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(rbrevealonebit)
+                        .addComponent(radOneBit1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbrevealtwobit)
+                        .addComponent(radTwoBit1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbrevealthreebit)))
+                        .addComponent(radThreeBit1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonGroup4.add(rbrevealonebit);
-        buttonGroup4.add(rbrevealtwobit);
-        buttonGroup4.add(rbrevealthreebit);
+        buttonGroup4.add(radOneBit1);
+        buttonGroup4.add(radTwoBit1);
+        buttonGroup4.add(radThreeBit1);
 
         tabSelect2.addTab("select bits", jPanel8);
 
@@ -400,16 +402,16 @@ public class PNGSteganography extends javax.swing.JFrame {
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        rbrevealmultiplehide.setText("Multiple Hide");
+        radMultipleHide1.setText("Multiple Hide");
 
-        rbrevealsinglehide.setText("Single Hide");
+        radSingleHide1.setText("Single Hide");
 
-        rbrevealfragmenthide.setText("Fragment Hide");
-        buttonGroup1.add(rbsinglehide);
+        radFragmentHide1.setText("Fragment Hide");
+        buttonGroup1.add(radSingleHide);
 
-        buttonGroup1.add(rbmultiplehide);
+        buttonGroup1.add(radMultipleHide);
 
-        buttonGroup1.add(rbfragmenthide);
+        buttonGroup1.add(radFragmentHide);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -422,9 +424,9 @@ public class PNGSteganography extends javax.swing.JFrame {
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbrevealmultiplehide)
-                    .addComponent(rbrevealsinglehide)
-                    .addComponent(rbrevealfragmenthide))
+                    .addComponent(radMultipleHide1)
+                    .addComponent(radSingleHide1)
+                    .addComponent(radFragmentHide1))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -438,17 +440,17 @@ public class PNGSteganography extends javax.swing.JFrame {
                             .addComponent(jLabel7)))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(rbrevealsinglehide)
+                        .addComponent(radSingleHide1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbrevealmultiplehide)
+                        .addComponent(radMultipleHide1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbrevealfragmenthide)))
+                        .addComponent(radFragmentHide1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonGroup3.add(rbrevealsinglehide);
-        buttonGroup3.add(rbrevealmultiplehide);
-        buttonGroup3.add(rbrevealfragmenthide);
+        buttonGroup3.add(radSingleHide1);
+        buttonGroup3.add(radMultipleHide1);
+        buttonGroup3.add(radFragmentHide1);
 
         tabSelect2.addTab("select method", jPanel7);
 
@@ -493,7 +495,7 @@ public class PNGSteganography extends javax.swing.JFrame {
                             .addGap(0, 0, Short.MAX_VALUE))))
                 .addGap(4, 4, 4))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -558,17 +560,21 @@ public class PNGSteganography extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(144, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("mainframe");
@@ -721,14 +727,20 @@ public class PNGSteganography extends javax.swing.JFrame {
                 if (fileName != null) {
                     int i = 0;
 
-                    if (radOneBit.isSelected()) {
+                    if (radOneBit1.isSelected()) {
                         i = 1;
-                    } else if (radTwoBit.isSelected()) {
+                    } else if (radTwoBit1.isSelected()) {
                         i = 2;
-                    } else if (radThreeBit.isSelected()) {
+                    } else if (radThreeBit1.isSelected()) {
                         i = 3;
+                    }if (radSingleHide1.isSelected()) {
+                        i = 4;
+                    } else if (radMultipleHide1.isSelected()) {
+                        i = 5;
+                    } else if (radFragmentHide1.isSelected()) {
+                        i = 6;
                     }
-
+                    
                     boolean result = false;
                     if (i == 1) {
                         result = SingleBitSteganography.reveal(txtRevealImage.getText(),fileName);
@@ -737,7 +749,12 @@ public class PNGSteganography extends javax.swing.JFrame {
                     } else if (i == 3) {
                         result = TripleBitSteganography.reveal(txtRevealImage.getText(),fileName);
                     }
-
+                    else if (i == 4) {
+                        result = SingleHideEncryption.reveal(txtRevealImage.getText(),fileName);
+                    }
+                    else if (i == 6) {
+                        result = FragMultiStegCrypt.reveal(txtRevealImage.getText(),fileName);
+                    }
                     if (result) {
                         JOptionPane.showMessageDialog(this, "text has been revealed from the image file");
                     } else {
@@ -754,9 +771,10 @@ public class PNGSteganography extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuBar1KeyReleased
 
     private void btnHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHideActionPerformed
-        // TODO add your handling code here:
+            // TODO add your handling code here:
 
-
+        
+        
         String txtFilePath=txtTextFile.getText();
         String txtImagePath=txtImageFile.getText();
         
@@ -806,7 +824,14 @@ public class PNGSteganography extends javax.swing.JFrame {
                         i = 2;
                     } else if (radThreeBit.isSelected()) {
                         i = 3;
+                    }if (radSingleHide.isSelected()) {
+                        i = 4;
+                    } else if (radMultipleHide.isSelected()) {
+                        i = 5;
+                    } else if (radFragmentHide.isSelected()) {
+                        i = 6;
                     }
+
 
                     boolean result = false;
                     if (i == 1) {
@@ -815,8 +840,15 @@ public class PNGSteganography extends javax.swing.JFrame {
                         result = DoubleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(),fileName);
                     } else if (i == 3) {
                         result = TripleBitSteganography.hide(txtTextFile.getText(), txtImageFile.getText(),fileName);
+                    }else if(i==4)
+                    {
+                        result=SingleHideEncryption.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
                     }
-
+                    else if(i==6)
+                    {
+                        result=FragMultiStegCrypt.hide(txtTextFile.getText(), txtImageFile.getText(), fileName);
+                    }
+                    
                     if (result) {
                         JOptionPane.showMessageDialog(this, "Your text has been hid in the image");
                     } else {
@@ -902,18 +934,18 @@ public class PNGSteganography extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JRadioButton radFragmentHide;
+    private javax.swing.JRadioButton radFragmentHide1;
+    private javax.swing.JRadioButton radMultipleHide;
+    private javax.swing.JRadioButton radMultipleHide1;
     private javax.swing.JRadioButton radOneBit;
+    private javax.swing.JRadioButton radOneBit1;
+    private javax.swing.JRadioButton radSingleHide;
+    private javax.swing.JRadioButton radSingleHide1;
     private javax.swing.JRadioButton radThreeBit;
+    private javax.swing.JRadioButton radThreeBit1;
     private javax.swing.JRadioButton radTwoBit;
-    private javax.swing.JRadioButton rbfragmenthide;
-    private javax.swing.JRadioButton rbmultiplehide;
-    private javax.swing.JRadioButton rbrevealfragmenthide;
-    private javax.swing.JRadioButton rbrevealmultiplehide;
-    private javax.swing.JRadioButton rbrevealonebit;
-    private javax.swing.JRadioButton rbrevealsinglehide;
-    private javax.swing.JRadioButton rbrevealthreebit;
-    private javax.swing.JRadioButton rbrevealtwobit;
-    private javax.swing.JRadioButton rbsinglehide;
+    private javax.swing.JRadioButton radTwoBit1;
     private javax.swing.JTabbedPane tabSelect1;
     private javax.swing.JTabbedPane tabSelect2;
     private javax.swing.JTextField txtImageFile;

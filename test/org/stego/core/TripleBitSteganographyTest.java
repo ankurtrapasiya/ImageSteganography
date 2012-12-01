@@ -45,7 +45,7 @@ public class TripleBitSteganographyTest {
         String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t3.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
         boolean expResult = true;
-        boolean result = TripleBitSteganography.hide(fileName, imageFileName);
+        boolean result = TripleBitSteganography.hide(fileName, imageFileName,"abc.png");
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -59,7 +59,7 @@ public class TripleBitSteganographyTest {
         System.out.println("reveal");
         String fileName = "abc.png";
         boolean expResult = true;
-        boolean result = TripleBitSteganography.reveal(fileName);
+        boolean result = TripleBitSteganography.reveal(fileName,"r1.txt");
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

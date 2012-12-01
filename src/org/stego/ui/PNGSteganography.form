@@ -106,9 +106,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -116,10 +118,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="144" max="32767" attributes="0"/>
+              <EmptySpace pref="141" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -313,7 +318,7 @@
                     <Property name="text" type="java.lang.String" value="3 bit"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="buttonGroup2.add(radOneBit);&#xa;buttonGroup2.add(radTwoBit);&#xa;buttonGroup2.add(radThreeBit);"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="buttonGroup1.add(radOneBit);&#xa;buttonGroup1.add(radTwoBit);&#xa;buttonGroup1.add(radThreeBit);"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -337,9 +342,9 @@
                           <Component id="jSeparator4" min="-2" pref="17" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="rbmultiplehide" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbsinglehide" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbfragmenthide" min="-2" max="-2" attributes="0"/>
+                              <Component id="radMultipleHide" min="-2" max="-2" attributes="0"/>
+                              <Component id="radSingleHide" min="-2" max="-2" attributes="0"/>
+                              <Component id="radFragmentHide" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="52" max="32767" attributes="0"/>
                       </Group>
@@ -358,11 +363,11 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="rbsinglehide" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radSingleHide" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rbmultiplehide" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radMultipleHide" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rbfragmenthide" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radFragmentHide" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -381,22 +386,22 @@
                     <Property name="orientation" type="int" value="1"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbmultiplehide">
+                <Component class="javax.swing.JRadioButton" name="radMultipleHide">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Multiple Hide"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbsinglehide">
+                <Component class="javax.swing.JRadioButton" name="radSingleHide">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Single Hide"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbfragmenthide">
+                <Component class="javax.swing.JRadioButton" name="radFragmentHide">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Fragment Hide"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(rbsinglehide);&#xa;&#xa;buttonGroup1.add(rbmultiplehide);&#xa;&#xa;buttonGroup1.add(rbfragmenthide);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(radSingleHide);&#xa;&#xa;buttonGroup1.add(radMultipleHide);&#xa;&#xa;buttonGroup1.add(radFragmentHide);"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -508,7 +513,7 @@
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                  <EmptySpace pref="56" max="32767" attributes="0"/>
                   <Component id="jSeparator2" min="-2" pref="492" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
@@ -586,9 +591,9 @@
                           <Component id="jSeparator8" min="-2" pref="15" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="rbrevealtwobit" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbrevealonebit" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbrevealthreebit" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radTwoBit1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radOneBit1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radThreeBit1" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="101" max="32767" attributes="0"/>
                       </Group>
@@ -607,11 +612,11 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                                  <Component id="rbrevealonebit" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radOneBit1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rbrevealtwobit" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radTwoBit1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rbrevealthreebit" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radThreeBit1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -630,22 +635,22 @@
                     <Property name="orientation" type="int" value="1"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbrevealonebit">
+                <Component class="javax.swing.JRadioButton" name="radOneBit1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="1 bit"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbrevealtwobit">
+                <Component class="javax.swing.JRadioButton" name="radTwoBit1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="2 bit"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbrevealthreebit">
+                <Component class="javax.swing.JRadioButton" name="radThreeBit1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="3 bit"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="buttonGroup4.add(rbrevealonebit);&#xa;buttonGroup4.add(rbrevealtwobit);&#xa;buttonGroup4.add(rbrevealthreebit);"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="buttonGroup4.add(radOneBit1);&#xa;buttonGroup4.add(radTwoBit1);&#xa;buttonGroup4.add(radThreeBit1);"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -669,9 +674,9 @@
                           <Component id="jSeparator7" min="-2" pref="17" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="rbrevealmultiplehide" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbrevealsinglehide" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="rbrevealfragmenthide" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radMultipleHide1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radSingleHide1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="radFragmentHide1" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="52" max="32767" attributes="0"/>
                       </Group>
@@ -690,11 +695,11 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="rbrevealsinglehide" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radSingleHide1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rbrevealmultiplehide" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radMultipleHide1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="rbrevealfragmenthide" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radFragmentHide1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -713,25 +718,25 @@
                     <Property name="orientation" type="int" value="1"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbrevealmultiplehide">
+                <Component class="javax.swing.JRadioButton" name="radMultipleHide1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Multiple Hide"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbrevealsinglehide">
+                <Component class="javax.swing.JRadioButton" name="radSingleHide1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Single Hide"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="buttonGroup3.add(rbrevealsinglehide);&#xa;buttonGroup3.add(rbrevealmultiplehide);&#xa;buttonGroup3.add(rbrevealfragmenthide);"/>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="buttonGroup3.add(radSingleHide1);&#xa;buttonGroup3.add(radMultipleHide1);&#xa;buttonGroup3.add(radFragmentHide1);"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rbrevealfragmenthide">
+                <Component class="javax.swing.JRadioButton" name="radFragmentHide1">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Fragment Hide"/>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(rbsinglehide);&#xa;&#xa;buttonGroup1.add(rbmultiplehide);&#xa;&#xa;buttonGroup1.add(rbfragmenthide);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(radSingleHide);&#xa;&#xa;buttonGroup1.add(radMultipleHide);&#xa;&#xa;buttonGroup1.add(radFragmentHide);"/>
                   </AuxValues>
                 </Component>
               </SubComponents>

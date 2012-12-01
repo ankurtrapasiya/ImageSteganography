@@ -45,7 +45,7 @@ public class DoubleBitSteganographyTest {
         String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t2.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
         boolean expResult = true;
-        boolean result = DoubleBitSteganography.hide(fileName, imageFileName);
+        boolean result = DoubleBitSteganography.hide(fileName, imageFileName,"abc.png");
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -59,7 +59,7 @@ public class DoubleBitSteganographyTest {
         System.out.println("reveal");
         String fileName = "abc.png";
         boolean expResult = true;
-        boolean result = DoubleBitSteganography.reveal(fileName);
+        boolean result = DoubleBitSteganography.reveal(fileName,"r1.txt");
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
