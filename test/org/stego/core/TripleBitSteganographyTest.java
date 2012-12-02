@@ -40,7 +40,7 @@ public class TripleBitSteganographyTest {
      * Test of hide method, of class TripleBitSteganography.
      */
     @Test
-    public void testHide() {
+    public void testHide() throws LargeMessageException{
         System.out.println("hide");
         String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t3.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";

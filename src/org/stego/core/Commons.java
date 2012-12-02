@@ -151,7 +151,7 @@ public class Commons {
 
     /**
      * Actual hiding of single bit data into image
-     * 
+     *
      */
     public static void singleHideStego(byte[] imBytes, byte[] stego, int offset) {
 
@@ -172,7 +172,7 @@ public class Commons {
 
     /**
      * Hide single bit data into image
-     * 
+     *
      */
     public static boolean singleHide(byte[] imBytes, byte[] stego) throws LargeMessageException {
         int imageLength = imBytes.length;
@@ -189,7 +189,7 @@ public class Commons {
 
     /**
      * Actual hiding of double bit data into image
-     * 
+     *
      */
     public static void doubleHideStego(byte[] imBytes, byte[] stego, int offset) {
 
@@ -213,7 +213,7 @@ public class Commons {
 
     /**
      * Hide double bit data into image
-     * 
+     *
      */
     public static boolean doubleHide(byte[] imBytes, byte[] stego) throws LargeMessageException {
         int imageLength = imBytes.length;
@@ -230,9 +230,9 @@ public class Commons {
 
     /**
      * Actual hiding of three bit data into image
-     * 
+     *
      */
-    public static boolean tripleHide(byte[] imBytes, byte[] stego) throws LargeMessageException{
+    public static boolean tripleHide(byte[] imBytes, byte[] stego) throws LargeMessageException {
         int imageLength = imBytes.length;
 
         int totalLength = stego.length;
@@ -249,7 +249,7 @@ public class Commons {
 
     /**
      * Hide three bit data into image
-     * 
+     *
      */
     public static void tripleHideStego(byte[] imBytes, byte[] stego, int offset) {
 
@@ -399,6 +399,42 @@ public class Commons {
 
     }
 
+    /**
+     * Actual hiding of double bit data into image
+     *
+     */
+    public static void quadrupleHideStego(byte[] imBytes, byte[] stego, int offset) {
 
- 
+        for (int i = 0; i < stego.length; i++) {
+
+            int byteVal = stego[i];
+
+            for (int j = 4; j >= 0; j -= 4) {
+
+                int bitVal = (byteVal >>> j) & 0xF;
+
+                imBytes[offset] = (byte) ((imBytes[offset] & 0xF0) | bitVal);
+
+                offset++;
+
+            }
+        }
+    }
+
+    /**
+     * Hide double bit data into image
+     *
+     */
+    public static boolean quadrupleHide(byte[] imBytes, byte[] stego) throws LargeMessageException {
+        int imageLength = imBytes.length;
+
+        int totalLength = stego.length;
+
+        if ((totalLength * (DATA_SIZE / 4)) > imageLength) {
+            throw new LargeMessageException("Message is too big to be stored in the image");
+        }
+
+        Commons.quadrupleHideStego(imBytes, stego, 0);
+        return true;
+    }
 }

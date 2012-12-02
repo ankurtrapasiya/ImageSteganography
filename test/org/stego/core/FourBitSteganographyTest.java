@@ -15,9 +15,9 @@ import static org.junit.Assert.*;
  *
  * @author ankur
  */
-public class DoubleBitSteganographyTest {
+public class FourBitSteganographyTest {
     
-    public DoubleBitSteganographyTest() {
+    public FourBitSteganographyTest() {
     }
     
     @BeforeClass
@@ -37,31 +37,31 @@ public class DoubleBitSteganographyTest {
     }
 
     /**
-     * Test of hide method, of class DoubleBitSteganography.
+     * Test of hide method, of class FourBitSteganography.
      */
     @Test
-    public void testHide() throws LargeMessageException{
+    public void testHide() throws Exception {
         System.out.println("hide");
-        String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t2.txt";
+        String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/t4.txt";
         String imageFileName = "/home/ankur/NetBeansProjects/ImageSteganography/image/14.png";
+        String outputFileName = "/home/ankur/NetBeansProjects/ImageSteganography/output/4bit.png";
         boolean expResult = true;
-        boolean result = DoubleBitSteganography.hide(fileName, imageFileName,"abc.png");
+        boolean result = FourBitSteganography.hide(fileName, imageFileName, outputFileName);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
-     * Test of reveal method, of class DoubleBitSteganography.
+     * Test of reveal method, of class FourBitSteganography.
      */
     @Test
     public void testReveal() {
         System.out.println("reveal");
-        String fileName = "abc.png";
+        String fileName = "/home/ankur/NetBeansProjects/ImageSteganography/output/4bit.png";
+        String outputFilePath = "/home/ankur/NetBeansProjects/ImageSteganography/output/4bit.txt";
         boolean expResult = true;
-        boolean result = DoubleBitSteganography.reveal(fileName,"r1.txt");
+        boolean result = FourBitSteganography.reveal(fileName, outputFilePath);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 }

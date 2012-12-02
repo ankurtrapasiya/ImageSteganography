@@ -38,7 +38,7 @@ public class FourBitSteganography {
             byte[] imageBytes = Commons.accessBytes(image);
 
 
-            if (!Commons.singleHide(imageBytes, stego)) {
+            if (!Commons.quadrupleHide(imageBytes, stego)) {
                 return false;
             }
 
@@ -67,7 +67,7 @@ public class FourBitSteganography {
                 return false;
             }
 
-            String msg = getMessage(imageBytes, msgLength, Commons.MAX_INT_LEN * Commons.DATA_SIZE);
+            String msg = getMessage(imageBytes, msgLength, (Commons.MAX_INT_LEN * Commons.DATA_SIZE)/4);
 
             if (msg != null) {
 
@@ -111,7 +111,7 @@ public class FourBitSteganography {
 
     private static byte[] extractHiddenBytes(byte[] imageBytes, int size, int offset) {
 
-        int finalPosition = offset + (size * Commons.DATA_SIZE);
+        int finalPosition = offset + (size * (Commons.DATA_SIZE/4));
 
         if (finalPosition > imageBytes.length) {
             JOptionPane.showMessageDialog(null, "Reached end of the image while reading data");
@@ -122,8 +122,8 @@ public class FourBitSteganography {
 
 
         for (int j = 0; j < size; j++) {
-            for (int i = 0; i < Commons.DATA_SIZE; i++) {
-                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 1) | (imageBytes[offset] & 1));
+            for (int i = 0; i < Commons.DATA_SIZE/4; i++) {
+                hiddenBytes[j] = (byte) ((hiddenBytes[j] << 4) | (imageBytes[offset] & 0xF));
                 offset++;
             }
         }

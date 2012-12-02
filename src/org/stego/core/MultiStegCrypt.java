@@ -23,18 +23,14 @@ public class MultiStegCrypt {
 
     public static boolean hide(String fileName, String imageFileName, String outputFileName) throws LargeMessageException {
 
-        //Read the given text file using Utils.readTextFile(fileName) method  
         String msg = Commons.readTextFile(fileName);
-        //Check if it exists or not
         if (msg.length() == 0) {
             return false;
         }
 
-        // Generate password for encrypted data 
         String password = SingleHideEncryption.genPassword();
         byte[] passBytes = password.getBytes();
 
-        // use password to encrypt the message
         byte[] msgBytes = msg.getBytes();
         byte[] encryptedMsgBytes = SingleHideEncryption.encryptMsgBytes(msgBytes, password);
 
@@ -43,28 +39,23 @@ public class MultiStegCrypt {
         }
 
 
-        //Build the stego
         byte[] stego = buildStego(passBytes, encryptedMsgBytes);
 
         try {
 
-            //Read the image file
             BufferedImage image = ImageIO.read(new File(imageFileName));
 
             if (image == null) {
                 return false;
             }
 
-            //Convert it into bytes format
             byte[] imageBytes = Commons.accessBytes(image);
 
-            //Hide multiple methods using multiHide method
             if (!multiHide(imageBytes, stego)) {
                 return false;
             }
 
 
-            //Store file using Utils.writeImageToFile method
             return Commons.writeImageToFile(outputFileName, image);
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,17 +69,14 @@ public class MultiStegCrypt {
 
         byte[] stego = null;
 
-        //declaring header
         byte headerBytes[] = STEGO_HEADER.getBytes();
-        //length of the encrypted message
+
         byte[] lenBs = Commons.intToBytes(encryptedMsgBytes.length);
 
-        //int totalLen = dataLength.length + msgBytes.length;
         int totalLen = STEGO_HEADER.length() + passBytes.length + lenBs.length + encryptedMsgBytes.length;
 
         stego = new byte[totalLen];
 
-        //Combine all data in stego
         int destPos = 0;
         System.arraycopy(headerBytes, 0, stego, destPos, STEGO_HEADER.length()); // header
         destPos += STEGO_HEADER.length();
@@ -104,22 +92,16 @@ public class MultiStegCrypt {
     private static boolean multiHide(byte[] imageBytes, byte[] stego) throws LargeMessageException {
 
         int imLen = imageBytes.length;
-        //System.out.println("Byte length of image: " + imLen);
 
         int totalLen = stego.length;
-        //System.out.println("Total byte length of message: " + totalLen);
 
-        // check that the stego will fit into the image
-        /* multiply stego length by number of image bytes required to store one stego byte */
         if ((totalLen * DATA_SIZE) > imLen) {
             throw new LargeMessageException("Message is too big to be stored in the image");
         }
 
-        // calculate the number of times the stego can be hidden
-        int numHides = imLen / (totalLen * DATA_SIZE); // integer div
-        //System.out.println("No. of message duplications: " + numHides);
+        int numHides = imLen / (totalLen * DATA_SIZE); 
 
-        for (int i = 0; i < numHides; i++) // hide stego numHides times
+        for (int i = 0; i < numHides; i++) 
         {
             Commons.singleHideStego(imageBytes, stego, (i * totalLen * DATA_SIZE));
         }
@@ -162,7 +144,6 @@ public class MultiStegCrypt {
     }
 
     public static boolean reveal(String fileName, String outputFileName) {
-        // get the image's data as a byte array
         BufferedImage bi = null;
         try {
             bi = ImageIO.read(new File(fileName));
@@ -175,16 +156,15 @@ public class MultiStegCrypt {
         byte[] imBytes = Commons.accessBytes(bi);
         int imLen = imBytes.length;
         int headOffset = STEGO_HEADER.length() * DATA_SIZE;
-        // stego header space used in image
         String msg = null;
         boolean foundMsg = false;
         int i = 0;
         while ((i < imLen) && !foundMsg) {
-            if (!findHeader(imBytes, i)) // no stego header found at pos i
+            if (!findHeader(imBytes, i)) 
             {
-                i++; // move on
-            } else { // found header
-                i += headOffset; // move past stego header
+                i++; 
+            } else { 
+                i += headOffset; 
                 msg = SingleHideEncryption.extractMsg(imBytes, i);
                 if (msg != null) {
                     foundMsg = true;
